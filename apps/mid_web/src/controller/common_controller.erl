@@ -7,4 +7,4 @@
 -export([test/1]).
 
 test(_Req) ->
-    {ok, <<"I am common controller in post">>}.
+    {ok, <<"I am common controller">>}.
