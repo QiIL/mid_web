@@ -1,0 +1,21 @@
+{application, 'mid_web', 
+    [
+        {description, "An Web app for middare"},
+        {vsn, "1.0.0"},
+        {registered, []},
+        {mod, {'mid_web_app', []}},
+        {applications,
+            [
+                kernel,
+                stdlib,
+                cowboy,
+                jsx,
+                wlib,
+                wtime,
+                wlog,
+                config
+            ]},
+        {env, []},
+        {modules, []}
+    ]
+}.

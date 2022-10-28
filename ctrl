@@ -1,0 +1,28 @@
+#! /bin/bash
+
+CTRL_DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
+source ${CTRL_DIR}/config/sys.env
+# rebar release的运行管理脚本
+SHELL_SCRIPT=${CTRL_DIR}/bin/mid_web
+
+case "$1" in
+  "start")
+    $SHELL_SCRIPT console -detached "$@"
+    ;;
+  "live")
+    $SHELL_SCRIPT console "$@"
+    ;;
+  "stop")
+    $SHELL_SCRIPT stop
+    ;;
+  "debug")
+    $SHELL_SCRIPT remote_console
+    ;;
+  "*")
+    echo "start 启动节点"
+	  echo "live 交互式启动"
+    echo "stop 停止服务"
+    echo "debug 连接到运行中的节点"
+    ;;
+esac
+

@@ -1,0 +1,14 @@
+{application, 'wtime',
+    [
+        {description, "Web time tools and time server"},
+        {vsn, "1.0.0"},
+        {registered, []},
+        {applications,
+            [
+                kernel,
+                stdlib
+            ]},
+        {env, []},
+        {modules, []}
+    ]
+}.

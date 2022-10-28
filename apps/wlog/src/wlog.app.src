@@ -1,0 +1,15 @@
+{application, 'wlog',
+    [
+        {description, "Web log app"},
+        {vsn, "1.0.0"},
+        {registered, []},
+        {applications,
+            [
+                kernel,
+                stdlib,
+                lager
+            ]},
+        {env, []},
+        {modules, []}
+    ]
+}.

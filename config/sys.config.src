@@ -1,0 +1,52 @@
+[
+    {mnesia, [
+        {dir, "/data/database/mid_web/mnesia/"},
+        {what, "the fuck"}
+    ]},
+    {wlog, [
+        {log_level, debug}
+    ]},
+    {mtime, [
+        {sec_shift, 0} % UTC offset second
+    ]},
+    {lager, [
+         {log_root, "/data/log/mid_web"},
+         {colored, true},
+         {colors, [
+             {debug,     "\e[1;34m" },
+             {info,      "\e[1;37m" },
+             {notice,    "\e[1;36m" },
+             {warning,   "\e[1;33m" },
+             {error,     "\e[1;31m" },
+             {critical,  "\e[1;35m" },
+             {alert,     "\e[1;44m" },
+             {emergency, "\e[1;41m" },
+             {eol,       "\e[0m\r\n"}
+         ]},
+         {crash_log, "crash.log"},
+         {crash_log_date, "$M1D0"},
+         {handlers, [
+            %%{lager_console_backend, [
+            %%    {level, info},
+            %%    {formatter, lager_default_formatter},
+            %%    {formatter_config, [date, " ", time," [",severity,"] ", message, "\n"]}
+            %%]},
+            {wlog_backend, [
+                {file, "error.log"}, 
+                {level, error},
+                {formatter, wlog_formatter},
+                {formatter_config, [date, " ", color, time," [",severity,"] ", ":", module, ":", line, " => ", message, "\n"]},
+                {rotator, wlog_rotator},
+                {date, "$M1D0"}
+            ]},
+            {wlog_backend, [
+                {file, "info.log"}, 
+                {level, info},
+                {formatter, wlog_formatter},
+                {rotator, wlog_rotator},
+                {formatter_config, [date, " ", color, time," [",severity,"] ", ":", module, ":", line, " => ", message, "\n"]},
+                {date, "$D0"}
+            ]}
+         ]}
+    ]}
+].
