@@ -66,8 +66,8 @@ gen_source_code(Mod, FPath) ->
     {ok, Keys} = file:consult(FPath),
     FindFund = gen_pattern_match_func(Keys,
         "find",
-        fun({Key, _}) -> Key end,
-        fun({_, Val}) -> Val end),
+        fun({Key, _}) -> io_lib:format("~w", [Key]) end,
+        fun({_, Val}) -> io_lib:format("~w", [Val]) end),
     wlib_tool:concat([
         "%% -*- coding: utf-8 -*-\n"
         "-module(", Mod, ").\n",

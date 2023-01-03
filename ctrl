@@ -5,24 +5,77 @@ source ${CTRL_DIR}/config/sys.env
 # rebar release的运行管理脚本
 SHELL_SCRIPT=${CTRL_DIR}/bin/mid_web
 
+start() {
+  $SHELL_SCRIPT console -detached "$@"
+}
+
+live() {
+  $SHELL_SCRIPT console "$@"
+}
+
+stop() {
+  $SHELL_SCRIPT stop "$@"
+}
+
+game_cmd() {
+  $SHELL_SCRIPT eval wlib_ctrl:command\(\""$@"\"\).
+}
+
+debug() {
+  $SHELL_SCRIPT remote_console
+}
+
+eval() {
+  $SHELL_SCRIPT eval "$@"
+}
+
+
 case "$1" in
   "start")
-    $SHELL_SCRIPT console -detached "$@"
+    start "$@"
     ;;
   "live")
-    $SHELL_SCRIPT console "$@"
+    live "$@"
     ;;
   "stop")
-    $SHELL_SCRIPT stop
+    stop "$@"
+    ;;
+  "restart")
+    stop "$@"
+    start "$@"
     ;;
   "debug")
-    $SHELL_SCRIPT remote_console
+    debug "$@"
     ;;
-  "*")
-    echo "start 启动节点"
-	  echo "live 交互式启动"
-    echo "stop 停止服务"
-    echo "debug 连接到运行中的节点"
+  "game_cmd")
+    shift
+    game_cmd "$@"
+    ;;
+  "eval")
+    shift
+    eval "$@"
+    ;;
+  "c")
+    shift 
+    $ESCRIPT ${CTRL_DIR}/script/compile_file.es "$@"
+    ;; 
+  "ct")
+    shift 
+    $ESCRIPT ${CTRL_DIR}/script/compile_file.es \$compile_file_to_dir "$@"
+    ;; 
+  "l")
+    shift
+    $ESCRIPT ${CTRL_DIR}/script/load_module.es "$@"
+    ;;
+  *)
+    echo "    start 启动节点"
+	echo "    live 交互式启动"
+    echo "    stop 停止服务"
+    echo "    game_cmd 执行wlib_ctrl:command(CMD)"
+    echo "    c 编译文件到_build/default/rel/lib: c mod1 mod2..."
+    echo "    ct 编译文件到指定目录 ct dir mod1 mod2..."
+    echo "    l 加载模块：l mod1 mod2..."
+    echo "    debug 连接到运行中的节点"
     ;;
 esac
 

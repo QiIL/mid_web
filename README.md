@@ -16,8 +16,8 @@ git clone https://github.com/QiIL/mid_web.git
 cd mid_web
 make all
 cd /data/mid_web
-./ctrl start
-curl 192.168.100.42:8080/api/comm/test
+./_build/default/rel/mid_web/ctrl start
+curl 127.0.0.1:8080/api/comm/test
 {"code":200,"data":"\"I am common controller\"","ret":1}
 ```
 

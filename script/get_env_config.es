@@ -2,7 +2,7 @@
 %% -*- erlang -*-
 
 main(Keys) ->
-    FilePath = filename:absname(filename:dirname(escript:script_name()) ++ "/../config/mid_web.config"),
+    FilePath = filename:absname(filename:dirname(escript:script_name()) ++ "/../config/env.config"),
     {ok, AllKeyVal} = file:consult(FilePath),
     AllVal = get_keys_val(Keys, AllKeyVal),
     ArrayStr = output_to_string(AllVal),

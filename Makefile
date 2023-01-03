@@ -1,5 +1,3 @@
-PROJECT_BASE := /data
-
 ## 伪目标, 跳过文件检测
 .PHONY: all
 
@@ -12,9 +10,9 @@ endif
 
 ## 生产环境和debug编译尽量相同
 ifdef PROFILE
-#	@(rebar3 as $(PROFILE) compile)
-	@(rebar3 as $(PROFILE) release -o ${PROJECT_BASE})
+#	@(rebar3 as $(PROFILE) compile) 
+	@(rebar3 as $(PROFILE) release)
 else
-#	@(rebar3 as prod compile)
-	@(rebar3 as prod release -o ${PROJECT_BASE})
+#	@(rebar3 compile) 
+	@(rebar3 release)
 endif

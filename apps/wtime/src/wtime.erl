@@ -14,6 +14,7 @@
     nextnight/0,
     timestamp/0,
     timestamp/1,
+    last_date/0,
     date/0,
     date/1,
     local_time/0,
@@ -96,6 +97,11 @@ timestamp({Y, M, D}) ->
 timestamp(DateTime) ->
     calendar:datetime_to_gregorian_seconds(DateTime) - ?GREGORIAN_BEGIN_TIME.
 
+-spec last_date() -> date().
+last_date() ->
+    {Date, _} = wtime:datetime(wtime:now()-?DAY_SECOND),
+    Date.
+
 -spec date() -> date().
 date() ->
     {Date, _} = wtime:datetime(),
@@ -109,7 +115,7 @@ date(Timestamp) ->
 -spec local_time() -> datetime().
 local_time() ->
     calendar:local_time().
-
+   
 -spec datetime() -> datetime().
 datetime() ->
     calendar:local_time().

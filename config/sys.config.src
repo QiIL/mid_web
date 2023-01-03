@@ -1,13 +1,12 @@
 [
+    {mid_web, [
+        {node_id, ${NODE_ID}}
+    ]},
     {mnesia, [
-        {dir, "/data/database/mid_web/mnesia/"},
-        {what, "the fuck"}
+        {dir, "/data/database/mid_web/mnesia/"}
     ]},
     {wlog, [
         {log_level, debug}
-    ]},
-    {mtime, [
-        {sec_shift, 0} % UTC offset second
     ]},
     {lager, [
          {log_root, "/data/log/mid_web"},

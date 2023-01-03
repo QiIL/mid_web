@@ -8,6 +8,7 @@
             [
                 kernel,
                 stdlib,
+                recon,
                 cowboy,
                 jsx,
                 wlib,

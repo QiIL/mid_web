@@ -186,9 +186,9 @@ handle_event(_Event, State) ->
 
 %% @private
 handle_info({rotate, File}, #state{name=File, date=Date, rotator=Rotator}=State0) ->
-    ?lager_info("rotate file: ~p~n", [State0]),
     State1 = close_file(State0),
     _ = Rotator:rotate_logfile(File, Date),
+    ?lager_info("rotate log file file begin now~n", []),
     schedule_rotation(File, Date),
     {ok, State1};
 handle_info({shaper_expired, Name}, #state{shaper=Shaper, name=Name, formatter=Formatter, formatter_config=FormatConfig} = State) ->

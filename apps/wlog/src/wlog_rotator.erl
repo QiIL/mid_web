@@ -1,6 +1,7 @@
 -module(wlog_rotator).
 
 -include_lib("kernel/include/file.hrl").
+-include_lib("wtime/include/wtime.hrl").
 
 -behaviour(wlog_rotator_behaviour).
 
@@ -69,11 +70,12 @@ rotate_logfile(File, Date) ->
     Dir = filename:dirname(File),
     Extension = filename:extension(File),
     RootName = filename:rootname(filename:basename(File)),
-    % 按月的和按天的名字不一样
-    {{Y, M, D}, _} = calendar:local_time(),
+    {Y, M, D} = wtime:last_date(),
+    %% 按月的和按天的名字不一样
+    %% 轮转每日0点和每月1号0点的就好，其他不管反正没用的
     DateStr = case Date of
-        [{date, _}, {hour, _}] -> wlib_tool:concat([Y,"-",M]);
-        [{hour, _}] -> wlib_tool:concat([Y,"-",M,"-",D])
+        [{date, 0}, {hour, _}] -> wlib_tool:concat([Y,"-",M]);
+        [{hour, 0}] -> wlib_tool:concat([Y,"-",M,"-",D])
     end,
     NewFileName = wlib_tool:concat([Dir, "/", RootName, ".", DateStr, Extension]),
     _ = file:rename(File, NewFileName),
