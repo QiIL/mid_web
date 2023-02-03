@@ -18,5 +18,4 @@ usage() ->
 main([]) ->
     usage(),
     ?EXIT(0);
-main(Mods) ->
-    
+main(_Mods) -> ok.

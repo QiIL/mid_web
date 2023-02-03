@@ -7,11 +7,9 @@
 
 %% 函数调用
 wr(M, F) ->
-    wlib_trace:watch_return(M, F).
-wr(M, F, A) ->
-    wlib_trace:watch_return(M, F, A).
+    wlib_recon_trace:watch(M, F).
 %% A = 参数个数, P = PID
-wr(P, M, F, A) ->
+wr(M, F, A, P) ->
     wlib_trace:watch_return(P, M, F, A).
 
 %% watch_filter( world_cache_server, do_loop_sec, dbg:fun2ms(fun([A]) when (A rem 2) == 0 -> true end) ).

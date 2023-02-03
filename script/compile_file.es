@@ -71,12 +71,18 @@ find_src_file([Mod|T], List, List2) ->
         [FilePath] -> find_src_file(T, [FilePath|List], List2)
     end.
 
-compile(FilePath, Opt, OutDir) ->
+%% 开发环境下_build/default/lib/app都是软链
+compile(FilePath, Opt, DeployDir) ->
     App = filename:basename(filename:dirname(filename:dirname(FilePath))),
     Now = os:system_time(second),
-    RealOutDir = OutDir++"/"++App++"/ebin/",
-    filelib:ensure_dir(RealOutDir),
-    NewOpt = [debug_info, no_spawn_compiler_process, {d,'COMPILE_TIME', Now}, {outdir, RealOutDir} | Opt],
+    OutDir = DeployDir++"/"++App++"/ebin/",
+    filelib:ensure_dir(OutDir),
+    IncludeOpts = [
+        {i, DeployDir++"/"++App},
+        {i, DeployDir++"/"++App++"/include"},
+        {i, DeployDir++"/"++App++"/src"}
+    ],
+    NewOpt = [debug_info, no_spawn_compiler_process, {d,'COMPILE_TIME', Now}, {outdir, OutDir} | Opt] ++ IncludeOpts,
     ?E("编译文件: ~s~n", [FilePath]),
     ?E("编译选项:~p~n", [NewOpt]),
     P = "",
@@ -101,7 +107,16 @@ compile(FilePath, Opt, OutDir) ->
 get_base_compile_opt() ->
     {ok, KVS} = file:consult(?ROOT_DIR++"/rebar.config"),
     Opts = proplists:get_value(erl_opts, KVS, []),
-    lists:delete({parse_transform,lager_transform}, Opts).
+    filter_useless_opt(Opts).
+filter_useless_opt(L) ->
+    filter_useless_opt(L, []).
+filter_useless_opt([], L) -> L;
+filter_useless_opt([{parse_transform,lager_transform}|T], L) -> 
+    filter_useless_opt(T, L);
+filter_useless_opt([{i, _}|T], L) ->
+    filter_useless_opt(T, L);
+filter_useless_opt([H|T], L) ->
+    filter_useless_opt(T, [H|L]).
 %%
 %%get_app_version(App, FilePath) ->
 %%    SrcDir = filename:dirname(FilePath),
