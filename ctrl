@@ -29,6 +29,21 @@ eval() {
   $SHELL_SCRIPT eval "$@"
 }
 
+l() {
+  # 链接节点需要自己是一个有名字的节点，不能是nonode@nohost
+  RANDOM_STR=$(gen_random_str)
+  IP=$(get_ip)
+  ERL_FLAGS=" -name load_module_${RANDOM_STR}@${IP} -setcookie load_module_${RANDOM_STR} " $ESCRIPT ${CTRL_DIR}/script/load_module.es "$@"
+}
+
+gen_random_str() {
+  cat /dev/urandom | head -n 10 | md5sum | head -c 10
+}
+
+get_ip() {
+    IP=($(ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d \"addr:\"))
+    echo $IP[0]
+}
 
 case "$1" in
   "start")
@@ -65,7 +80,11 @@ case "$1" in
     ;; 
   "l")
     shift
-    $ESCRIPT ${CTRL_DIR}/script/load_module.es "$@"
+    l "$@"
+    ;;
+  "cl")
+    shift
+    $ESCRIPT ${CTRL_DIR}/script/compile_file.es "$@" && l "$@"
     ;;
   *)
     echo "    start 启动节点"
