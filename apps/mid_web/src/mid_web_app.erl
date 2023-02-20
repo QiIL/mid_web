@@ -15,9 +15,19 @@ start(_StartType, _StartArgs) ->
         #{env => #{dispatch => Dispatch}}
     ),
     {ok, Sup} = mid_web_sup:start_link(),
+    [IsDebug] = wconf:find(env, is_debug),
+    case IsDebug of
+        true -> 
+            sync:go(),
+            sync:onsync(fun(Mods) ->
+                ?DEBUG_MSG("重新加载了以下模块 : ~p~n",[Mods])
+            end); 
+        _ -> next
+    end,
     ?INFO_MSG("mid_web start success"),
     {ok, Sup}.
 
 stop(_State) ->
+    sync:stop(),
     ok = cowboy:stop_listener(?WEB_LISTENER),
     ok.

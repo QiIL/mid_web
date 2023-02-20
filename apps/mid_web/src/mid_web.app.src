@@ -8,14 +8,17 @@
             [
                 kernel,
                 stdlib,
-                recon,
-                cowboy,
-                jsx,
-                wlib,
-                wtime,
-                wlog,
-                config
+                cowboy
             ]},
+        {included_applications, [
+            wlog,
+            wtime,
+            config,
+            wlib,
+            jsx,
+            recon,
+            sync
+        ]},
         {env, []},
         {modules, []}
     ]

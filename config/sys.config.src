@@ -8,6 +8,12 @@
     {wlog, [
         {log_level, debug}
     ]},
+    {sync, [
+        {log, all}, % 开发日志尽量多吧
+        {src_dirs, 
+            {add, [{"", []}]} % 没有定制的输出文件，项目内全部dir，根据默认的erl_opt outdir 编译到默认目录
+        }
+    ]},
     {lager, [
          {log_root, "/data/log/mid_web"},
          {colored, true},

@@ -7,9 +7,9 @@
 - [X] lager日志接入，自定义
 - [X] 时间库
 - [X] 热更新
-- [ ] sync
-- [ ] 时间服务器（供长连接的进程使用）
+- [X] Sync开发热更新
 - [ ] 发布打包脚本
+- [ ] 时间服务器（供长连接的进程使用）
 - [ ] 数据库接入
 
 ### Getting Start
@@ -75,4 +75,15 @@ cd mid_web
 ``` bash
 cd mid_web
 ./ctrl cl 模块1 模块2 模块3...
+```
+
+### Sync开发热更新
+不需要自己编译更新文件，SYNC使用项目目录+编译参数来进行热更新
+``` erlang sys.config.src
+{sync, [
+        {log, all}, % 开发日志尽量多吧
+        {src_dirs, 
+            {add, [{"", []}]} % 没有定制的输出文件，项目内全部dir，根据默认的erl_opt outdir 编译到默认目录
+        }
+    ]}.
 ```

@@ -5,8 +5,8 @@
 
 %% API
 -export([
-    command/1
+    cmd/1
 ]).
 
-command(CMD) ->
+cmd(CMD) ->
     io:format("CMD is a string: ~p, CMD: ~p~n", [is_list(CMD), CMD]).
