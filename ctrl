@@ -1,5 +1,4 @@
 #! /bin/bash
-
 CTRL_DIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 source ${CTRL_DIR}/config/sys.env
 # rebar release的运行管理脚本
@@ -86,6 +85,10 @@ case "$1" in
     shift
     $ESCRIPT ${CTRL_DIR}/script/compile_file.es "$@" && l "$@"
     ;;
+  "deploy")
+    shift
+    sh ${CTRL_DIR}/script/deploy.sh $PROJECT_NAME
+    ;;
   *)
     echo "    start 启动节点"
 	echo "    live 交互式启动"
@@ -95,6 +98,7 @@ case "$1" in
     echo "    ct 编译文件到指定目录 ct dir mod1 mod2..."
     echo "    l 加载模块：l mod1 mod2..."
     echo "    debug 连接到运行中的节点"
+    echo "    deploy 打包发布 PROJCECT_NAME为sys.env配置值"
     ;;
 esac
 

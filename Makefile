@@ -10,7 +10,7 @@ endif
 
 ## 生产环境和debug编译尽量相同
 ifdef PROFILE
-#	@(rebar3 as $(PROFILE) compile) 
+#	@(rebar3 as $(PROFILE) compile)
 	@(rebar3 as $(PROFILE) release)
 else
 #	@(rebar3 compile) 
