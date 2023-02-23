@@ -8,7 +8,7 @@
 - [X] 时间库
 - [X] 热更新
 - [X] Sync开发热更新
-- [ ] 发布打包脚本
+- [X] 发布打包脚本
 - [ ] 时间服务器（供长连接的进程使用）
 - [ ] 数据库接入
 
@@ -86,4 +86,28 @@ cd mid_web
             {add, [{"", []}]} % 没有定制的输出文件，项目内全部dir，根据默认的erl_opt outdir 编译到默认目录
         }
     ]}.
+```
+
+### 打包发布脚本
+源码位置为：`./script/deploy.sh`和`./script/sed_config.es`shell写文件有点烦，偷懒用`escript`写
+``` bash
+./ctrl deploy
+请设置节点ID(唯一正整数):  2
+请设置web服务端口(默认为8080):
+请输入发布目录(默认/data/deploy):
+web服务的ip配置(默认为127.0.0.1):
+请输入发布模式：1直接发布；2打tar包(默认为1):  1
+/root/mid_web/_build/prod/rel/mid_web
+部署参数如下:
+  项目：mid_web
+  节点ID: 2
+  端口: 8080
+  发布目录: /data/deploy
+  IP: 127.0.0.1
+确认用上述参数发布吗?(y/n/Enter)
+复制文件成功！
+初始化配置文件 env.config
+env.config初始化成功！
+发布完成，项目已发布到：/data/deploy/mid_web_2
+
 ```
