@@ -53,7 +53,7 @@ load_cfg(Mod, FPath, OutputPath) ->
 load_cfg([]) -> ok;
 load_cfg([{Mod, FPath, OutPutPath} | T]) ->
     Src = gen_source_code(Mod, FPath),
-    file:write_file(OutPutPath, wlib_tool:to_binary(Src)),
+    file:write_file(OutPutPath, erlang:iolist_to_binary(wlib_tool:to_iolist(Src))),
     case compile:file(OutPutPath, [binary]) of
         {ok, Mod, Bin}  ->
             erlang:load_module(Mod, Bin);

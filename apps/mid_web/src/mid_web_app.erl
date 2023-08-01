@@ -1,3 +1,4 @@
+%% -*- coding: utf-8 -*-
 -module(mid_web_app).
 -behavior(application).
 -include("mid_web.hrl").

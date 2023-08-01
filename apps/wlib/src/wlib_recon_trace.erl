@@ -1,3 +1,4 @@
+%% -*- coding: utf-8 -*-
 -module(wlib_recon_trace).
 -include_lib("stdlib/include/ms_transform.hrl").
 %% API

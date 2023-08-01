@@ -14,6 +14,11 @@
             {add, [{"", []}]} % 没有定制的输出文件，项目内全部dir，根据默认的erl_opt outdir 编译到默认目录
         }
     ]},
+    {mysql_poolboy, [
+        {mid_web_pool, {[{size, 10}, {max_overflow, 20}],
+                 [{user, "root"}, {password, "123456"}, {database, "mid_web"},
+                  {prepare, [{test, "SELECT * FROM test WHERE id=?"}]}]}}
+    ]},
     {lager, [
          {log_root, "/data/log/mid_web"},
          {colored, true},

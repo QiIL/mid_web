@@ -1,3 +1,4 @@
+%% -*- coding: utf-8 -*-
 -module(wlog_rotator_behaviour).
 %% Create a log file
 -callback(create_logfile(Name::list(), Buffer::{integer(), integer()} | any()) ->

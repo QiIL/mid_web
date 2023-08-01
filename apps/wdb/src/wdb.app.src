@@ -1,0 +1,16 @@
+{application, 'wdb',
+    [
+        {description, "web database api"},
+        {vsn, "1.0.0"},
+        {registered, []},
+        {mod, {'wdb_app', []}},
+        {applications,
+            [
+                kernel,
+                stdlib,
+                mysql_poolboy
+            ]},
+        {env, []},
+        {modules, []}
+    ]
+}.

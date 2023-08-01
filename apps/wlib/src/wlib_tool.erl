@@ -1,3 +1,4 @@
+%% -*- coding: utf-8 -*-
 %%%-------------------------------------------------------------------
 %%% @doc 各种工具
 %%%-------------------------------------------------------------------
@@ -54,8 +55,23 @@ to_list(T) when erlang:is_pid(T) ->
 to_list(_Other) ->
     erlang:throw({other_value, {_Other, wlib_sys:get_stacktrace()}}).
 
-to_binary(Str) ->
-    erlang:iolist_to_binary(to_iolist(Str)).
+%% @doc convert other type to binary
+%% @throws other_value
+-spec to_binary(any()) -> binary().
+to_binary(Bin) when erlang:is_binary(Bin) ->
+    Bin;
+to_binary(Atom) when erlang:is_atom(Atom) ->
+    erlang:atom_to_binary(Atom);
+to_binary(List) when erlang:is_list(List) ->
+    erlang:list_to_binary(List);
+to_binary(Int) when erlang:is_integer(Int) ->
+    erlang:integer_to_binary(Int);
+to_binary(Float) when erlang:is_float(Float) ->
+    erlang:float_to_binary(Float);
+to_binary(PID) when erlang:is_pid(PID) ->
+    erlang:list_to_binary(erlang:pid_to_list(PID));
+to_binary(_Other) ->
+    erlang:throw({other_value, {_Other, ylib_sys:get_stacktrace()}}).
 
 %% @doc
 %% 不严格的的to_iolist，对于 16#80 - 16#FF 的字符不会转换为UTF-8，满足多数中文编码不一致的环境

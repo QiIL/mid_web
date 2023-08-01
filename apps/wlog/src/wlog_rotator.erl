@@ -1,3 +1,4 @@
+%% -*- coding: utf-8 -*-
 -module(wlog_rotator).
 
 -include_lib("kernel/include/file.hrl").

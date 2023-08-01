@@ -8,7 +8,8 @@
             [
                 kernel,
                 stdlib,
-                cowboy
+                cowboy,
+                wdb
             ]},
         {included_applications, [
             wlog,
