@@ -9,8 +9,9 @@
 - [X] 热更新
 - [X] Sync开发热更新
 - [X] 发布打包脚本
+- [X] 数据库接入
 - [ ] 时间服务器（供长连接的进程使用）
-- [ ] 数据库接入
+- [ ] 数据使用`record`定义，读取写入都处理成`record`形式
 
 ### Getting Start
 ```bash
@@ -111,3 +112,61 @@ env.config初始化成功！
 发布完成，项目已发布到：/data/deploy/mid_web_2
 
 ```
+
+### 数据库相关
+数据库使用`mysql`，数据库读取封装了一下`mysql_poolboy`
+1. 创建一个mid_web的database
+2. 创建一个test的表
+3. 我的使用例子
+4. 字符串拼接和二进制拼接，貌似是字符串快一点:`wdb:test_speed()`
+``` erlang
++----+------+------+
+| id | col1 | col2 |
++----+------+------+
+
+wdb:insert(test, [1,1,1]).
+query: "INSERT INTO test VALUES ( ?, ?, ? ) "
+ params: ["1","1","1"]
+ok
+
+wdb:read(test, 1).
+SELECT * FROM test WHERE id = 1
+{ok,[<<"id">>,<<"col1">>,<<"col2">>],[[1,1,1]]}
+
+wdb:update(test1, 1, [{col1, 1000}]).
+query: " UPDATE test1 SET col1 = 1000 WHERE id = 1"
+ params: " UPDATE test1 SET col1 = 1000 WHERE id = 1"
+ok
+
+wdb:read(test, 1).
+SELECT * FROM test WHERE id = 1
+{ok,[<<"id">>,<<"col1">>,<<"col2">>],[[1,1000,1]]}
+
++----+------+------+
+| id | col1 | col2 |
++----+------+------+
+|  1 | 1000 |    1 |
++----+------+------+
+
+wdb:insert_col(test1, [{col1, 100222}, {col2, 122002}]).
+query: "INSERT INTO test2 ( col1, col ) VALUES ( ?, ? ) "
+ params: ["100222","122002"]
+ok
+
+wdb:read(test1, 2).
+SELECT * FROM test1 WHERE id = 2
+{ok,[<<"id">>,<<"col1">>,<<"col2">>],
+    [[3,<<"100222">>,<<"122002">>]]}
+
++----+--------+--------+
+| id |  col1  |  col2  |
++----+--------+--------+
+|  1 |   1000 |     1  |
++----+--------+--------+
+|  2 | 100222 | 122002 |
++----+--------+--------+
+
+```
+
+
+

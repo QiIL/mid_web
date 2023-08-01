@@ -40,7 +40,7 @@ insert_col(Tab, KVList) ->
         string:join(["?" || _ <- lists:seq(1, erlang:length(KVList))], ", "),
         " ) "
     ]),
-    Params = string:join([wlib_tool:to_list(Val) || {_, Val} <- KVList], ", "),
+    Params = [wlib_tool:to_list(Val) || {_, Val} <- KVList],
     io:format("query: ~p~n params: ~p~n", [QueryStr, Params]),
     mysql_poolboy:query(?QUERY_POOL, QueryStr, Params).
 
